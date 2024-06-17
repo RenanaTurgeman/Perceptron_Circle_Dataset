@@ -75,22 +75,22 @@ print(f"Achieved margin: {achieved_margin}")
 
 
 # Brute-force optimal margin calculation
-def brute_force_optimal_margin(X, y):
-    from scipy.optimize import minimize
-
-    def objective(w):
-        margins = [y[i] * np.dot(w, X[i]) for i in range(X.shape[0])]
-        return -min(margins)
-
-    initial_w = np.zeros(X.shape[1])
-    result = minimize(objective, initial_w, method='BFGS')
-    optimal_w = result.x
-    optimal_margin = calculate_margin(optimal_w, X, y)
-    return optimal_margin, optimal_w
-
-
-optimal_margin, optimal_w = brute_force_optimal_margin(X, y)
-
-print(f"Optimal margin: {optimal_margin}")
-print(f"Optimal direction vector: {optimal_w}")
+# def brute_force_optimal_margin(X, y):
+#     from scipy.optimize import minimize
+#
+#     def objective(w):
+#         margins = [y[i] * np.dot(w, X[i]) for i in range(X.shape[0])]
+#         return -min(margins)
+#
+#     initial_w = np.zeros(X.shape[1])
+#     result = minimize(objective, initial_w, method='BFGS')
+#     optimal_w = result.x
+#     optimal_margin = calculate_margin(optimal_w, X, y)
+#     return optimal_margin, optimal_w
+#
+#
+# optimal_margin, optimal_w = brute_force_optimal_margin(X, y)
+#
+# print(f"Optimal margin: {optimal_margin}")
+# print(f"Optimal direction vector: {optimal_w}")
 
