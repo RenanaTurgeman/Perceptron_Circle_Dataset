@@ -1,4 +1,11 @@
 import numpy as np
+import sys
+import logging
+
+# Configure logging
+# ! If you want to print the logger, lower the level to INFO !
+logging.basicConfig(level=logging.WARNING, stream=sys.stdout, format='%(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+logger = logging.getLogger()
 
 # Load the dataset
 data = np.loadtxt('two_circle.txt')
@@ -9,26 +16,34 @@ y = data[:, -1]  # Labels
 
 # Perceptron Algorithm Implementation
 def perceptron(X, y, gamma):
-    # 1) Initialize the weight vector w_1 to 0
+    logger.info("1) Initialize the weight vector w_1 to 0")
     w = np.zeros(X.shape[1])
     num_rounds = 0
     mistakes = 0
 
+    logger.info("2) For round t=1,2,...")
     while True:
         num_rounds += 1
         error_found = False
-        # 2) Iterate over all points x_i
+        logger.info("3) Iterate over all points x_i")
         for i in range(X.shape[0]):
+            logger.info("4) If w_t ⋅ x_i < gamma/2 but x is +")
             if np.dot(w, X[i]) < gamma / 2 and y[i] == 1:
-                    w += X[i]
-                    mistakes += 1
-                    error_found = True
-                    break
-            elif np.dot(w, X[i]) > -gamma / 2 and y[i] == -1:
-                    w -= X[i]
-                    mistakes += 1
-                    error_found = True
-                    break
+                logger.info("5) w_t+1 ← w_t + x_i")
+                w += X[i]
+                mistakes += 1
+                error_found = True
+                logger.info(f"6) exit round t = {num_rounds}")
+                break
+            logger.info("7) If w_t ⋅ x_i > − gamma / 2 but x is −")
+            if np.dot(w, X[i]) > -gamma / 2 and y[i] == -1:
+                logger.info("8) w_t+1 ← w_t − x_i")
+                w -= X[i]
+                mistakes += 1
+                error_found = True
+                logger.info(f"9) exit round t = {num_rounds}")
+                break
+        logger.info("10) If no mistakes this round, exit algorithm")
         if not error_found:
             break
 
